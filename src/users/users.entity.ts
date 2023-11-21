@@ -1,6 +1,7 @@
 import { Exclude } from "class-transformer";
 import { BaseEntity } from "src/common/base.entity";
-import { Column, Entity } from "typeorm";
+import { PostEntity } from "src/posts/posts.entity";
+import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
 
 @Entity({
 	name: 'user_tb'
@@ -23,6 +24,8 @@ export class UserEntity extends BaseEntity {
 		name: 'password',
 		length: 60
 	})
-	@Exclude()
 	password: string;
+
+	@OneToMany(() => PostEntity, (post) => post.userId)
+	posts: PostEntity[];
 }
