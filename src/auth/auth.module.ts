@@ -12,6 +12,7 @@ import { PostEntity } from 'src/posts/posts.entity';
       PostEntity
     ])
   ],
+  exports: [AuthService],
   controllers: [AuthController],
   providers: [AuthService],
 })
