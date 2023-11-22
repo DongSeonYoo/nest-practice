@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignupRequestDTO } from './dto/signup.request.dto';
 import { UpdateUserRequestDTO } from './dto/update.request.dto';
@@ -27,6 +27,7 @@ export class AuthController {
   }
 
   @Post('/signup')
+  @UseInterceptors(ClassSerializerInterceptor)
   signup(
     @Body() signupRequestDTO: SignupRequestDTO
   ) {

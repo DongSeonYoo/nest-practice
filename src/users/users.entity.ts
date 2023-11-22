@@ -21,6 +21,13 @@ export class UserEntity extends BaseEntity {
 		name: 'password',
 		length: 60
 	})
+	@IsString()
+	@Length(1, 30, {
+		message: lengthValidationMessage
+	})
+	@Exclude({
+		toPlainOnly: true
+	})
 	password: string;
 
 	@OneToMany(() => PostEntity, (post) => post.userId)
