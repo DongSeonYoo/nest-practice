@@ -1,4 +1,5 @@
-import { BaseEntity } from "src/common/base.entity";
+import { IsString } from "class-validator";
+import { BaseEntity } from "src/common/entity/base.entity";
 import { UserEntity } from "src/users/users.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -7,9 +8,15 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
 })
 export class PostEntity extends BaseEntity {
 	@Column()
+	@IsString({
+		message: 'title은 스트링이어야함'
+	})
 	title: string;
 
 	@Column()
+	@IsString({
+		message: 'description은 스트링이어야함'
+	})
 	description: string;
 
 	@ManyToOne(() => UserEntity, (user) => user.id, {
