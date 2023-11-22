@@ -9,16 +9,13 @@ import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
 export class UserEntity extends BaseEntity {
 	@Column({
 		name: 'email',
-		length: 256
+		length: 256,
+		unique: true
 	})
 	email: string;
 
-	@Column({
-		name: 'name',
-		length: 10,
-		unique: true
-	})
-	name: string;
+	@Column()
+	age: number;
 
 	@Column({
 		name: 'password',
