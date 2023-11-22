@@ -14,8 +14,7 @@ export class PostsService {
 		private readonly authServices: AuthService
 	) { }
 
-	async createPost(createPostRequestDTO: CreatePostRequestDTO) {
-		const { userId } = createPostRequestDTO;
+	async createPost(userId: number, createPostRequestDTO: CreatePostRequestDTO) {
 		const foundUser = await this.authServices.getUserByIdx(userId);
 		const createdPost = this.postRepository.create({
 			...createPostRequestDTO,
