@@ -2,10 +2,18 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@
 import { AuthService } from './auth.service';
 import { SignupRequestDTO } from './dto/signup.request.dto';
 import { UpdateUserRequestDTO } from './dto/update.request.dto';
+import { LoginUserDTO } from './dto/login.request.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
+
+  @Post('/login')
+  login(
+    @Body() loginUserDTO: LoginUserDTO
+  ) {
+    return this.authService.login(loginUserDTO);
+  }
 
   @Get()
   getAllUsers() {
