@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/users/users.entity';
 import { Repository } from 'typeorm';
@@ -37,6 +37,38 @@ export class AuthService {
 		});
 	}
 
+	extractTokenFromHeader(header: string) {
+		const splitToken = header.split(' ');
+
+		if (splitToken.length !== 2) {
+			throw new UnauthorizedException('잘못된 토큰');
+		}
+
+		if (splitToken[0] !== 'bearer') {
+			throw new UnauthorizedException('토큰 bearer만 가능하다고');
+		}
+
+		const token = splitToken[1];
+		return token;
+	}
+
+	verifyToken(token: string) {
+		try {
+			return this.jwtService.verify(token, {
+				secret: JWT_SECRET
+			});
+		} catch (error) {
+			if (error.name === 'JsonWebTokenError') {
+				throw new UnauthorizedException('토큰 븅삼같음');
+			}
+
+			if (error.name === 'TokenExpiredError') {
+				throw new UnauthorizedException('토큰만료됨');
+				// 여기서 리프레시토큰으로 엑세스 토큰 재발급하면 됨
+			}
+		}
+	}
+
 	async login(user: LoginUserDTO) {
 		// 1. 해당하는 이메일을 가진 사용자가 존재하는지 확인
 		const { email, password } = user;
@@ -50,7 +82,8 @@ export class AuthService {
 
 		// 토큰 발급
 		return {
-			accessToken: this.signToken(foundUser, false)
+			accessToken: this.signToken(foundUser, false),
+			refreshToken: this.signToken(foundUser, true)
 		}
 	}
 

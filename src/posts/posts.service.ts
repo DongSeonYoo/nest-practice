@@ -24,9 +24,9 @@ export class PostsService {
 		const postInfo = await this.postRepository.save(createdPost);
 
 		return {
-			"postId": postInfo.id,
-			"authorId": postInfo.userId.id,
-			"authorName": postInfo.userId.name
+			postId: postInfo.id,
+			authorId: postInfo.userId.id,
+			authorName: postInfo.userId.age
 		};
 	}
 }

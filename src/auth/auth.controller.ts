@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignupRequestDTO } from './dto/signup.request.dto';
 import { UpdateUserRequestDTO } from './dto/update.request.dto';
 import { LoginUserDTO } from './dto/login.request.dto';
+import { AccessTokenGuard, AuthGuard } from './guard/auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -20,7 +21,7 @@ export class AuthController {
     return this.authService.getAllUsers();
   }
 
-  @Get('/:userId')
+  @Get('/')
   getUserByIdx(@Param('userId', ParseIntPipe) userId: number) {
     return this.authService.getUserByIdx(userId);
   }
