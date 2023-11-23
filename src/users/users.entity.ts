@@ -33,6 +33,16 @@ export class UserEntity extends BaseEntity {
 	@Length(1, 30, {
 		message: lengthValidationMessage
 	})
+	/**
+	 * FE -> BE (request)
+	 * JSON(plain object) -> DTO(class instance)
+	 * 
+	 * BE -> FE (response)
+	 * DTO(class instance) -> JSON(plain object)
+	 * 
+	 * toClassOnly -> class object로 변환될 때, 즉 request에 적용한다
+	 * toPlainOnly -> plain object로 변환될 떄, 즉 response에 적용한다
+	 */
 	@Exclude({
 		toPlainOnly: true
 	})
